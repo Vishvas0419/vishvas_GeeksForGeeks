@@ -35,8 +35,6 @@ class Solution {
             if(arr[i] == k) return true;    
         }
         return false;
-        
-        
         // Your code here
     }
 }
