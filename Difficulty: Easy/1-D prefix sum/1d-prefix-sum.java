@@ -1,6 +1,6 @@
 class Solution {
     public ArrayList<Integer> prefSum(int[] arr) {
-        int[] prefixSum = new int[arr.length]; //prefixSum[0] = 0; 
+        int [] prefixSum = new int[arr.length];
         prefixSum[0] = arr[0];
         for(int i=1;i<arr.length;i++)
         {
