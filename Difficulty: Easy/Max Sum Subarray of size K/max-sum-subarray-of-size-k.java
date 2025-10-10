@@ -1,21 +1,21 @@
-// User function Template for Java
-
 class Solution {
-    public int maximumSumSubarray(int[] arr, int k) {
-        int i=0,j=0,n=arr.length;
-        int maxSum = Integer.MIN_VALUE;
-        int sum = 0;
-        while(j<n)
+    public int maxSubarraySum(int[] arr, int k) {
+        int i=0,j=0;
+        int sum = 0; int max = Integer.MIN_VALUE;
+        while(j<arr.length)
         {
-            sum = sum+arr[j];
-            if(j-i+1 < k) j++;
-            else if(j-i+1 == k)
+            sum = sum + arr[j];
+            if(j-i+1 == k)
             {
-                maxSum = Math.max(maxSum,sum);
+                max = Math.max(max,sum);
                 sum = sum-arr[i];
                 i++;j++;
             }
+            else if(j-i+1 < k)
+            {
+                j++;
+            }   
         }
-        return maxSum;
+        return max;
     }
 }
