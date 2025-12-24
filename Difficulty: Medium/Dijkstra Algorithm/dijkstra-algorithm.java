@@ -1,6 +1,6 @@
 class Solution {
     class Pair{
-        int node;int dist;
+        int node; int dist;
         Pair(int node,int dist){
             this.node = node;
             this.dist = dist;
@@ -23,27 +23,32 @@ class Solution {
         int []dist = new int[V];
         Arrays.fill(dist,Integer.MAX_VALUE);
         dist[src] = 0;
-        PriorityQueue<Pair>pq = new PriorityQueue<>((a,b)->a.dist-b.dist);
-        pq.add(new Pair(src,0));
-        while(!pq.isEmpty())
+        TreeSet<Pair> set = new TreeSet<>((a, b) -> {
+            if (a.dist != b.dist) return a.dist - b.dist;
+            return a.node - b.node;
+        });
+        set.add(new Pair(src,0));
+        while(!set.isEmpty())
         {
-            Pair curr = pq.poll();
+            Pair curr = set.pollFirst();
             int u = curr.node;
-            int d = curr.dist;
-            // If the distance we popped is worse than the already known shortest distance, skip it
-            if(d>dist[u]) continue;
             for(Pair nbr : adj.get(u))
             {
                 int v = nbr.node;
                 int wt = nbr.dist;
+                //relaxation
                 if(dist[u]+wt < dist[v])
                 {
+                    if(dist[v]!=Integer.MAX_VALUE)
+                    {
+                        set.remove(new Pair(v,dist[v]));
+                    }
                     dist[v] = dist[u]+wt;
-                    pq.add(new Pair(v,dist[v]));
+                    set.add(new Pair(v,dist[v]));
                 }
             }
-            
         }
-        return dist; 
+        return dist;
+        
     }
 }
