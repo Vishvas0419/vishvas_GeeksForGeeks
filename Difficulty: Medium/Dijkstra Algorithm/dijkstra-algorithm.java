@@ -23,6 +23,7 @@ class Solution {
         int []dist = new int[V];
         Arrays.fill(dist,Integer.MAX_VALUE);
         dist[src] = 0;
+        //Using Set data structure
         TreeSet<Pair> set = new TreeSet<>((a, b) -> {
             if (a.dist != b.dist) return a.dist - b.dist;
             return a.node - b.node;
@@ -37,9 +38,9 @@ class Solution {
                 int v = nbr.node;
                 int wt = nbr.dist;
                 //relaxation
-                if(dist[u]+wt < dist[v])
+                if(dist[u]+wt < dist[v]) //if curr dist is smaller than already existing distance
                 {
-                    if(dist[v]!=Integer.MAX_VALUE)
+                    if(dist[v]!=Integer.MAX_VALUE) //also if someone has already visited remove the pair node having longer distance
                     {
                         set.remove(new Pair(v,dist[v]));
                     }
@@ -48,7 +49,6 @@ class Solution {
                 }
             }
         }
-        return dist;
-        
+        return dist; 
     }
 }
