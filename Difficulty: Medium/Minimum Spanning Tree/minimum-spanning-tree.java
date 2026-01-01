@@ -1,37 +1,57 @@
 class Solution {
+    class P{
+        int adjnode;int wt;
+        P(int adjnode,int wt)
+        {
+            this.adjnode = adjnode;
+            this.wt = wt;
+        }
+    }
+    class Pair{
+        int node;
+        int weight;
+        Pair(int node,int weight)
+        {
+            this.node = node;
+            this.weight = weight;
+        }
+    }
     public int spanningTree(int V, int[][] edges) {
-        List<List<int[]>> adj = new ArrayList<>();
+        List<List<P>>adj = new ArrayList<>();
         for(int i=0;i<V;i++)
         {
             adj.add(new ArrayList<>());
         }
         for(int []e : edges)
         {
-            int u = e[0]; int v = e[1]; int w = e[2];
-            adj.get(u).add(new int[]{u,v,w});
-            adj.get(v).add(new int[]{v,u,w});
+            int u = e[0];
+            int v = e[1];
+            int wt = e[2];
+            adj.get(u).add(new P(v,wt));
+            adj.get(v).add(new P(u,wt));
         }
-        PriorityQueue<int[]>pq = new PriorityQueue<>((a,b)->a[2]-b[2]);
-        boolean[] vis = new boolean[V];
-        pq.offer(new int[]{-1,0,0});
+        boolean []vis = new boolean[V];
+        PriorityQueue<Pair>pq = new PriorityQueue<>((a,b)->a.weight-b.weight);
+        pq.add(new Pair(0,0));
         int sum = 0;
-        int count = 0;
-        while(!pq.isEmpty() && count<V)
+        while(!pq.isEmpty())
         {
-            int[] curr = pq.poll();
-            int pas = curr[0];
-            int node = curr[1];
-            int wt = curr[2];
-            if(vis[node]) continue;
-            vis[node] = true;
-            sum += wt;
-            count++;
-            for(int[] n : adj.get(node))
+            Pair curr = pq.poll();
+            int node = curr.node;
+            int wt = curr.weight;
+            if(!vis[node])
             {
-                int np = n[0];
-                int nbr = n[1];
-                int nw = n[2];
-                if(!vis[nbr]) pq.offer(new int[]{np,nbr,nw});
+                vis[node] = true;
+                sum += wt;
+                for(P nbr : adj.get(node))
+                {
+                    int nbrwt = nbr.wt;
+                    int nbrnode = nbr.adjnode;
+                    if(!vis[nbrnode])
+                    {
+                        pq.add(new Pair(nbrnode,nbrwt));
+                    }
+                }
             }
         }
         return sum;
