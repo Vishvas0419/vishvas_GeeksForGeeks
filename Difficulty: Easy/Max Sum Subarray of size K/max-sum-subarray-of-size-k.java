@@ -8,7 +8,7 @@ class Solution {
             {
                 maxSum = Math.max(maxSum,sum);
                 sum -= arr[i];
-                i++;j++;
+                i++;j++; //to maintain the valid window
             }
             else{
                 j++;
