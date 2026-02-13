@@ -1,38 +1,38 @@
 // User function Template for Java
 
 class Solution {
-
     int search(String pat, String txt) {
-        int[]PatFreq = new int[26];
-        int[]textFreq = new int[26];
-        int count = 0;
+        Map<Character,Integer> map = new HashMap<>();
+        for(char ch : pat.toCharArray())
+        {
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
+        int cnt = map.size();
         int k = pat.length();
-        for(int i=0;i<pat.length();i++)
+        int ans = 0;
+        int i=0,j=0;
+        while(j<txt.length())
         {
-            char ch = pat.charAt(i);
-            PatFreq[ch-'a']++;
-        }
-        for(int i=0;i<k;i++)
-        {
-            char ch = txt.charAt(i);
-            textFreq[ch-'a']++;
-        }
-        if(Arrays.equals(PatFreq,textFreq))
-        {
-            count++;
-        }
-        for(int i=1;i<=txt.length()-k;i++)
-        {
-            char prevChar = txt.charAt(i-1);
-            char lastElem = txt.charAt(i+k-1);
-            textFreq[prevChar-'a']--;
-            textFreq[lastElem-'a']++;
-            if(Arrays.equals(PatFreq,textFreq))
+            char ch = txt.charAt(j);
+            if(map.containsKey(ch)) 
             {
-                count++;
+                map.put(ch,map.getOrDefault(ch,0)-1);
+                if(map.get(ch)==0) cnt--;
             }
+            if(j-i+1==k)
+            {
+                if(cnt==0) ans++;
+                if(map.containsKey(txt.charAt(i)))
+                {
+                    map.put(txt.charAt(i),map.getOrDefault(txt.charAt(i),0)+1);
+                    if(map.get(txt.charAt(i))==1) cnt++;
+                }
+                i++;
+            }
+            j++;
+            
         }
-        return count;
+        return ans;
         
     }
 }
