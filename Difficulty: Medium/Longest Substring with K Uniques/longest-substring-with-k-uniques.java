@@ -6,6 +6,10 @@ class Solution {
         {
             char ch = s.charAt(j);
             map.put(ch,map.getOrDefault(ch,0)+1);
+            if(map.size()==k)
+            {
+                maxLen = Math.max(maxLen,j-i+1);
+            }
             while(map.size()>k)
             {
                 char leftChar = s.charAt(i);
@@ -15,10 +19,6 @@ class Solution {
                     map.remove(leftChar);
                 }
                 i++;
-            }
-            if(map.size()==k)
-            {
-                maxLen = Math.max(maxLen,j-i+1);
             }
             j++;
         }
